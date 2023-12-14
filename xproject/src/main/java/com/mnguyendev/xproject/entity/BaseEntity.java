@@ -34,5 +34,5 @@ public class BaseEntity implements Serializable {
     private boolean isInvalid;
 
     @Column(name = "modified_at")
-    private Date modified_at;
+    private Date modifiedAt;
 }

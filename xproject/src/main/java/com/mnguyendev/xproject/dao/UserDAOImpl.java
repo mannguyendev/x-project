@@ -2,6 +2,7 @@ package com.mnguyendev.xproject.dao;
 
 import com.mnguyendev.xproject.entity.UserEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +20,21 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public List<UserEntity> findAll() {
+        // create the query
+        TypedQuery<UserEntity> query = entityManager.createQuery(
+                "from UserEntity", UserEntity.class
+        );
+
+        //exec the query
+        return query.getResultList();
+    }
+
+    @Override
     @Transactional
-    public void save(UserEntity user) {
+    public UserEntity save(UserEntity user) {
         entityManager.persist(user);
+        return user;
     }
 
     @Override
@@ -34,5 +47,11 @@ public class UserDAOImpl implements UserDAO {
     public void deleteById(int theId) {
         UserEntity tempUser = entityManager.find(UserEntity.class, theId);
         entityManager.remove(tempUser);
+    }
+
+    @Override
+    @Transactional
+    public UserEntity update(UserEntity user) {
+        return entityManager.merge(user);
     }
 }

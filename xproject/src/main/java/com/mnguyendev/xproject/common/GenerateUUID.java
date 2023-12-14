@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class GenerateUUID implements IdentifierGenerator {
 
-    private static Logger log = LoggerFactory.getLogger(GenerateUUID.class);
+    private static final Logger log = LoggerFactory.getLogger(GenerateUUID.class);
 
     @Override
     public Object generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) {
