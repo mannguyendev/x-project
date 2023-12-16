@@ -1,9 +1,9 @@
 package com.mnguyendev.xproject.controller;
 
-import com.mnguyendev.xproject.common.GenerateUUID;
 import com.mnguyendev.xproject.entity.UserEntity;
 import com.mnguyendev.xproject.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +33,46 @@ public class UserController {
 
     // create user
     @PostMapping("/")
-    public UserEntity saveUser(@RequestBody UserEntity user){
-        return userService.save(user);
+    public Object createUser(@RequestBody UserEntity user, HttpServletResponse response){
+        try {
+            // check user is already exist
+            if (userService.isAccountExist(user)) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                throw new Exception("Account already exist!");
+            }
+
+            return userService.createUser(user);
+        } catch (Exception e){
+            JSONObject responseObj = new JSONObject();
+            responseObj.put("Error", e.getMessage());
+            return responseObj.toString();
+        }
+    }
+
+    // login user
+    @PostMapping("/login")
+    public UserEntity loginUser(@RequestParam String username, @RequestParam String password, HttpServletResponse response){
+
+        try {
+            return userService.loginUser(username, password);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return null;
+        }
     }
 
     // update user
-//    @PostMapping("/users/:theId")
-//    public UserEntity updateUser(@RequestBody UserEntity user, @RequestParam int theId){
-//
-//
-//        return userService.save(user);
-//    }
+    @PatchMapping("/{theId}")
+    public UserEntity updateUser(@RequestBody UserEntity user, @PathVariable int theId, HttpServletResponse response){
+        try {
+            return userService.updateUser(user, theId);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return null;
+        }
+    }
 
     // read user
     @GetMapping("/{theId}")
@@ -79,5 +108,11 @@ public class UserController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return -1;
         }
+    }
+
+    // get all user
+    @GetMapping("/disable")
+    public List<UserEntity> getAllDisableUsers(HttpServletResponse response) {
+            return userService.findDisableUsers();
     }
 }

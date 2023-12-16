@@ -42,4 +42,14 @@ public class UserEntity extends BaseEntity {
     @Column(name = "user_img")
     private String userImg;
 
+    public void map(UserEntity user){
+        if (user.getUsername() != null) setUsername(user.username);
+        if (user.getFirstName() != null) setFirstName(user.firstName);
+        if (user.getLastName() != null) setLastName(user.lastName);
+        if (user.getGender() != null) setGender(user.gender);
+        if (user.getDateOfBirth() != null) setDateOfBirth(user.dateOfBirth);
+        if (user.getUserImg() != null) setUserImg(user.userImg);
+        if (user.getPhoneNo() != null) setPhoneNo(user.phoneNo);
+        if (user.getEmail() != null) setEmail(user.email);
+    }
 }

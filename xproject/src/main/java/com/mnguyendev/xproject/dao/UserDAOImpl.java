@@ -23,7 +23,18 @@ public class UserDAOImpl implements UserDAO {
     public List<UserEntity> findAll() {
         // create the query
         TypedQuery<UserEntity> query = entityManager.createQuery(
-                "from UserEntity", UserEntity.class
+                "from UserEntity where isInvalid = false", UserEntity.class
+        );
+
+        //exec the query
+        return query.getResultList();
+    }
+
+    @Override
+    public List<UserEntity> findInvalidUser() {
+        // create the query
+        TypedQuery<UserEntity> query = entityManager.createQuery(
+                "from UserEntity where isInvalid = true", UserEntity.class
         );
 
         //exec the query
@@ -40,6 +51,22 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserEntity findById(int theId) {
         return entityManager.find(UserEntity.class, theId);
+    }
+
+    @Override
+    public UserEntity findByUsername(String username) {
+        try {
+            // create the query
+            TypedQuery<UserEntity> query = entityManager.createQuery(
+                    "from UserEntity where username = :username", UserEntity.class
+            );
+            query.setParameter("username", username);
+
+            //exec the query
+            return query.getSingleResult();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override

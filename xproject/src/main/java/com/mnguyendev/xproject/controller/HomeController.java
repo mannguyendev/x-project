@@ -34,7 +34,7 @@ public class HomeController {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername("man");
         userEntity.setCreatedAt(new Date());
-        userService.save(userEntity);
+        userService.createUser(userEntity);
         return userEntity;
     }
 }

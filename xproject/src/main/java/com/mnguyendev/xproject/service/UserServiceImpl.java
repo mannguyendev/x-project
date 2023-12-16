@@ -4,7 +4,10 @@ import com.mnguyendev.xproject.dao.UserDAO;
 import com.mnguyendev.xproject.dao.UserDAOImpl;
 import com.mnguyendev.xproject.dao.UserRepository;
 import com.mnguyendev.xproject.entity.UserEntity;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -27,14 +30,44 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity save(UserEntity user) {
+    public List<UserEntity> findDisableUsers() {
+        return userDAO.findInvalidUser();
+    }
+
+    @Override
+    public UserEntity updateUser(UserEntity user, int theId) throws Exception {
+        UserEntity tempUser = userDAO.findById(theId);
+        if (tempUser == null || tempUser.isInvalid()){
+            throw new Exception("Could not get user with id = " + theId);
+        }
+        tempUser.map(user);
+        return userDAO.update(tempUser);
+    }
+
+    @Override
+    public UserEntity createUser(UserEntity user) {
         return userDAO.save(user);
+    }
+
+    @Override
+    public UserEntity loginUser(String username, String inputPassword) throws Exception {
+        UserEntity user = userDAO.findByUsername(username);
+        if (user == null || user.isInvalid()){
+            throw new Exception("Could not get user with username = " + username);
+        }
+        boolean isMatched = new BCryptPasswordEncoder().matches(inputPassword, user.getPassword());
+            System.out.println(isMatched);
+        if (!isMatched){
+            throw new Exception("Authentication failed!");
+        }
+
+        return user;
     }
 
     @Override
     public UserEntity findUserById(int theId) throws Exception {
         UserEntity user = userDAO.findById(theId);
-        if (user == null){
+        if (user == null || user.isInvalid()){
             throw new Exception("Could not get user with id = " + theId);
         }
         return user;
@@ -59,5 +92,10 @@ public class UserServiceImpl implements UserService {
         user.setDeletedAt(new Date());
         user.setInvalid(true);
         return userDAO.update(user).getId();
+    }
+
+    @Override
+    public boolean isAccountExist(UserEntity user) {
+        return userDAO.findByUsername(user.getUsername()) != null;
     }
 }
