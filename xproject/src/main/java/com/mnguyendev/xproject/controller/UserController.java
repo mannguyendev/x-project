@@ -1,5 +1,6 @@
 package com.mnguyendev.xproject.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.mnguyendev.xproject.entity.UserEntity;
 import com.mnguyendev.xproject.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -51,9 +52,13 @@ public class UserController {
 
     // login user
     @PostMapping("/login")
-    public UserEntity loginUser(@RequestParam String username, @RequestParam String password, HttpServletResponse response){
+    public UserEntity loginUser(@RequestBody JsonNode loginInfo, HttpServletResponse response){
 
         try {
+            System.out.println(loginInfo);
+            String username = loginInfo.get("username").asText();
+            String password = loginInfo.get("password").asText();
+
             return userService.loginUser(username, password);
         } catch (Exception e){
             log.error(e.getMessage());
