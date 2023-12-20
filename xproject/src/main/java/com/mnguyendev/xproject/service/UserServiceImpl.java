@@ -1,27 +1,28 @@
 package com.mnguyendev.xproject.service;
 
+import com.mnguyendev.xproject.common.CommonUtils;
 import com.mnguyendev.xproject.dao.UserDAO;
-import com.mnguyendev.xproject.dao.UserDAOImpl;
-import com.mnguyendev.xproject.dao.UserRepository;
+import com.mnguyendev.xproject.dao.UserSectionDAO;
 import com.mnguyendev.xproject.entity.UserEntity;
-import org.apache.catalina.User;
+import com.mnguyendev.xproject.entity.UserSectionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
 
+    private UserSectionDAO userSectionDAO;
+
     @Autowired
-    public UserServiceImpl(UserDAO theUserDAO) {
+    public UserServiceImpl(UserDAO theUserDAO, UserSectionDAO theUSerSectionDAO) {
         userDAO = theUserDAO;
+        userSectionDAO = theUSerSectionDAO;
     }
 
     @Override
@@ -50,8 +51,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity loginUser(String username, String inputPassword) throws Exception {
+    public UserSectionEntity loginUser(String username, String inputPassword) throws Exception {
         UserEntity user = userDAO.findByUsername(username);
+
         if (user == null || user.isInvalid()){
             throw new Exception("Could not get user with username = " + username);
         }
@@ -61,7 +63,24 @@ public class UserServiceImpl implements UserService {
             throw new Exception("Authentication failed!");
         }
 
-        return user;
+        // add user token to UserSection table
+        UserSectionEntity userSection = new UserSectionEntity(user, CommonUtils.generateJWTCode());
+        userSectionDAO.save(userSection);
+
+        // response
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//
+//        hashMap.put("user", user);
+//        hashMap.put("token", token);
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        JsonNode response = mapper.convertValue(hashMap, JsonNode.class);
+        return userSection;
+    }
+
+    @Override
+    public boolean logoutUser(String token) throws Exception {
+        return userSectionDAO.disableToken(token);
     }
 
     @Override
@@ -97,5 +116,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isAccountExist(UserEntity user) {
         return userDAO.findByUsername(user.getUsername()) != null;
+    }
+
+    @Override
+    public UserSectionEntity verifyToken(String token) throws Exception {
+        UserSectionEntity userSection = userSectionDAO.findByToken(token);
+        if (userSection == null){
+            throw new Exception("Could not find user token!");
+        }
+        return userSection;
     }
 }

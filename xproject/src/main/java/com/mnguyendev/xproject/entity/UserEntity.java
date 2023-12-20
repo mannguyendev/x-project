@@ -1,18 +1,17 @@
 package com.mnguyendev.xproject.entity;
 
-import com.mnguyendev.xproject.common.GenerateUUID;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="customer")
+@ToString
+@Table(name="customer", uniqueConstraints = @UniqueConstraint(name = "uniqueUsername", columnNames = {"username", "phone_no", "email"}))
 public class UserEntity extends BaseEntity {
 
     @Column(name = "username")
@@ -41,6 +40,12 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "user_img")
     private String userImg;
+
+//    @OneToMany(mappedBy = "user",
+//            fetch = FetchType.LAZY,
+//            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+//                    CascadeType.DETACH, CascadeType.REFRESH})
+//    private List<UserSectionEntity> userSections;
 
     public void map(UserEntity user){
         if (user.getUsername() != null) setUsername(user.username);

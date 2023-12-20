@@ -1,11 +1,8 @@
 package com.mnguyendev.xproject.entity;
 
-import com.mnguyendev.xproject.common.GenerateUUID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 import java.io.Serializable;
 import java.util.Date;

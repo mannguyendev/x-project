@@ -1,4 +1,4 @@
-package com.mnguyendev.xproject.common;
+package com.mnguyendev.xproject.common.identifier;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;

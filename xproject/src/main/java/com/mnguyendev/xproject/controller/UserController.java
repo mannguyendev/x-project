@@ -2,9 +2,10 @@ package com.mnguyendev.xproject.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mnguyendev.xproject.entity.UserEntity;
+import com.mnguyendev.xproject.entity.UserSectionEntity;
+import com.mnguyendev.xproject.service.UserSectionService;
 import com.mnguyendev.xproject.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,18 @@ public class UserController {
 
     private UserService userService;
 
+    private UserSectionService userSectionService;
+
     @Autowired
-    public UserController(UserService theUserService){
+    public UserController(UserService theUserService, UserSectionService theUserSectionService){
         userService = theUserService;
+        userSectionService = theUserSectionService;
     }
 
     // get all users
     @GetMapping("/")
     public List<UserEntity> getAllUser(){
-        List<UserEntity> users = userService.findAll();
-        log.info(users.toString());
-        return users;
+        return userService.findAll();
     }
 
     // create user
@@ -45,15 +47,16 @@ public class UserController {
 
             return userService.createUser(user);
         } catch (Exception e){
-            JSONObject responseObj = new JSONObject();
-            responseObj.put("Error", e.getMessage());
-            return responseObj.toString();
+//            JSONObject responseObj = new JSONObject();
+//            responseObj.put("Error", e.getMessage());
+//            return responseObj.toString();
+            return null;
         }
     }
 
     // login user
     @PostMapping("/login")
-    public UserEntity loginUser(@RequestBody JsonNode loginInfo, HttpServletResponse response){
+    public UserSectionEntity loginUser(@RequestBody JsonNode loginInfo, HttpServletResponse response){
 
         try {
             System.out.println(loginInfo);
@@ -61,6 +64,36 @@ public class UserController {
             String password = loginInfo.get("password").asText();
 
             return userService.loginUser(username, password);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return null;
+        }
+    }
+
+    @PostMapping("/logout")
+    public boolean logoutUser(@RequestBody JsonNode logoutInfo, HttpServletResponse response){
+
+        try {
+            System.out.println(logoutInfo);
+            String token = logoutInfo.get("token").asText();
+
+            return userService.logoutUser(token);
+        } catch (Exception e){
+            log.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        }
+    }
+
+    @PostMapping("/verifyToken")
+    public UserSectionEntity verifyToken(@RequestBody JsonNode tokenObj, HttpServletResponse response){
+
+        try {
+            System.out.println(tokenObj);
+            String token = tokenObj.get("token").asText();
+
+            return userService.verifyToken(token);
         } catch (Exception e){
             log.error(e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -84,7 +117,9 @@ public class UserController {
     @GetMapping("/{theId}")
     public UserEntity getUser(@PathVariable int theId, HttpServletResponse response) {
         try {
-            return userService.findUserById(theId);
+            UserEntity user = userService.findUserById(theId);
+//            System.out.println(user.getUserSections().toString());
+            return user;
         } catch (Exception e){
             log.error(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -116,7 +151,7 @@ public class UserController {
         }
     }
 
-    // get all user
+    // disable all user
     @GetMapping("/disable")
     public List<UserEntity> getAllDisableUsers(HttpServletResponse response) {
             return userService.findDisableUsers();
