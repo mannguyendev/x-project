@@ -1,14 +1,39 @@
-import { Fragment, useState } from "react";
-import Button from "../components/ui/button/Button";
+import { Fragment, useEffect, useState } from "react";
+import Button from "../../components/ui/button/Button";
 
 import classes from "./Home.module.css";
-import UserService from "../services/UserService";
+import UserService from "../../services/UserService";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "../../store/user-slice";
+import Cookies from "universal-cookie";
 
+const cookies = new Cookies();
 const Home = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        const loginByToken = async () => {
+            const token = cookies.get("Auth");
+
+            const response = UserService.loginByToken(token);
+
+            const responseData = await Promise.resolve(response);
+
+            console.log(responseData.data.user);
+
+            dispatch(userActions.login({ user: responseData.data.user, authToken: responseData.data.token }));
+        };
+
+        if (cookies.get("Auth")) {
+            loginByToken();
+        }
+    }, [dispatch]);
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
+    const user = useSelector((state) => state.user.user);
+    const token = useSelector((state) => state.user.authToken);
 
     const onChangeUsernameHandler = (e) => {
         e.preventDefault();
@@ -27,23 +52,27 @@ const Home = () => {
 
             const responseData = await Promise.resolve(response);
 
-            console.log(responseData.data);
-            setUser(responseData.data);
+            console.log(responseData.data.user);
+
+            dispatch(userActions.login({ user: responseData.data.user, authToken: responseData.data.token }));
         } catch (error) {
             console.log("Email hoặc mật khẩu sai vui lòng kiểm tra lại!" + error);
         }
     };
 
-    const logoutHandler = (e) => {
+    const logoutHandler = async (e) => {
         e.preventDefault();
-        setUser(null);
+        await UserService.logout(token);
+
+        dispatch(userActions.logout());
+        console.log(user);
     };
 
     return (
         <Fragment>
             <div className={classes.Container}>
                 <div className={classes.formInput}>
-                    <p>Home page</p>
+                    <h1>X Project</h1>
                     <input
                         onChange={onChangeUsernameHandler}
                         type="text"
@@ -60,8 +89,8 @@ const Home = () => {
                     />
                 </div>
                 <div className={classes.formSubmit}>
-                    {!user && <Button onClick={loginHandler}>Login</Button>}
-                    {user && <Button onClick={logoutHandler}>Logout</Button>}
+                    {!user && <Button onClick={loginHandler}>Đăng nhập</Button>}
+                    {user && <Button onClick={logoutHandler}>Đăng xuất</Button>}
                 </div>
                 {user && (
                     <div className={classes.loginMessage}>

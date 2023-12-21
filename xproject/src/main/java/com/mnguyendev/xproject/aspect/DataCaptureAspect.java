@@ -1,7 +1,6 @@
 package com.mnguyendev.xproject.aspect;
 
-import com.mnguyendev.xproject.entity.BaseEntity;
-import com.mnguyendev.xproject.entity.UserEntity;
+import com.mnguyendev.xproject.database.entity.BaseEntity;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -13,7 +12,7 @@ import java.util.Date;
 @Aspect
 @Component
 public class DataCaptureAspect {
-    @Before("execution(* com.mnguyendev.xproject.dao.*.save*(..))")
+    @Before("execution(* com.mnguyendev.xproject.database.dao.*.save*(..))")
     public void beforeSave(JoinPoint theJoinPoint){
         // display method signature
         MethodSignature methodSignature = (MethodSignature) theJoinPoint.getSignature();
@@ -36,7 +35,7 @@ public class DataCaptureAspect {
         }
     }
 
-    @Before("execution(* com.mnguyendev.xproject.dao.*.update*(..))")
+    @Before("execution(* com.mnguyendev.xproject.database.dao.*.update*(..))")
     public void beforeUpdate(JoinPoint theJoinPoint){
         // display method signature
         MethodSignature methodSignature = (MethodSignature) theJoinPoint.getSignature();

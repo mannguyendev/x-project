@@ -1,6 +1,6 @@
-package com.mnguyendev.xproject.dao;
+package com.mnguyendev.xproject.database.dao;
 
-import com.mnguyendev.xproject.entity.UserEntity;
+import com.mnguyendev.xproject.database.entity.UserEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;

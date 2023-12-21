@@ -1,8 +1,8 @@
-package com.mnguyendev.xproject.service;
+package com.mnguyendev.xproject.database.service;
 
-import com.mnguyendev.xproject.dao.UserSectionDAO;
-import com.mnguyendev.xproject.entity.UserEntity;
-import com.mnguyendev.xproject.entity.UserSectionEntity;
+import com.mnguyendev.xproject.database.dao.UserSectionDAO;
+import com.mnguyendev.xproject.database.entity.UserEntity;
+import com.mnguyendev.xproject.database.entity.UserSectionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

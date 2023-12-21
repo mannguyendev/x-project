@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BACKEND_URL } from "../utilities/constant";
+import { BACKEND_URL } from "../utilities/Constants";
 
 class UserService {
     login(username, password) {
@@ -7,6 +7,23 @@ class UserService {
             username,
             password,
         });
+    }
+
+    logout(token) {
+        return axios.post(
+            `${BACKEND_URL}/users/logout`,
+            {},
+            {
+                headers: {
+                    Authorization: "Bearer " + token, //the token is a variable which holds the token
+                },
+            }
+        );
+    }
+
+    loginByToken(token) {
+        console.log(token);
+        return axios.post(`${BACKEND_URL}/users/verifyToken`, { token });
     }
 
     // signup(email, password, name = "", phone = "0") {

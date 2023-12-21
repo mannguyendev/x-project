@@ -1,4 +1,4 @@
-package com.mnguyendev.xproject.entity;
+package com.mnguyendev.xproject.database.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
