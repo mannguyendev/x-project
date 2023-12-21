@@ -22,7 +22,7 @@ class UserService {
     }
 
     loginByToken(token) {
-        console.log(token);
+        console.log(BACKEND_URL, token);
         return axios.post(`${BACKEND_URL}/users/verifyToken`, { token });
     }
 

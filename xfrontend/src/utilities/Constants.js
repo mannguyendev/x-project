@@ -1,2 +1,1 @@
-// export const BACKEND_URL = "https://x-project.onrender.com/api";
-export const BACKEND_URL = "http://localhost:8080/api";
+export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
