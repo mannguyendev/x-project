@@ -1,8 +1,9 @@
-package com.mnguyendev.xproject.entity;
+package com.mnguyendev.xproject.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,11 +42,17 @@ public class UserEntity extends BaseEntity {
     @Column(name = "user_img")
     private String userImg;
 
-//    @OneToMany(mappedBy = "user",
-//            fetch = FetchType.LAZY,
-//            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-//                    CascadeType.DETACH, CascadeType.REFRESH})
-//    private List<UserSectionEntity> userSections;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<RoleEntity> roles;
+
+    public void addRole(String roleName){
+        if (roles == null){
+            roles = new ArrayList<>();
+        }
+
+        roles.add(new RoleEntity(roleName));
+    }
 
     public void map(UserEntity user){
         if (user.getUsername() != null) setUsername(user.username);

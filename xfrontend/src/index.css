@@ -1,13 +1,44 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+        "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+:root {
+    /* color panel */
+    --primary300: #eee9e5;
+    --primary600: #fab005;
+    --primary800: #f08c00;
+    --primary900: #e67700;
+
+    --dark100: #eee9e5;
+    --dark200: #ccbfb2;
+    --dark300: #88634c;
+    --dark400: #664019;
+    --dark500: #562b00;
+
+    --grey500: #adb5bd;
+    --grey600: #868e96;
+    --grey700: #495057;
+
+    --red100: #ffe3e3;
+    --red800: #e03131;
+
+    --yellow200: #ffec99;
+    --yellow800: #f08c00;
+    --yellow000: #ffa41c;
+
+    --green100: #d3f9d8;
+    --green700: #37b24d;
+
+    --violet100: #e5dbff;
+    --violet700: #7048e8;
+
+    --blue500: #14539a;
 }

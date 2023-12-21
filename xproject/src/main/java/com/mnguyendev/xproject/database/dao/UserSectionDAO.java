@@ -1,7 +1,7 @@
-package com.mnguyendev.xproject.dao;
+package com.mnguyendev.xproject.database.dao;
 
-import com.mnguyendev.xproject.entity.UserEntity;
-import com.mnguyendev.xproject.entity.UserSectionEntity;
+import com.mnguyendev.xproject.database.entity.UserEntity;
+import com.mnguyendev.xproject.database.entity.UserSectionEntity;
 
 import java.util.List;
 
@@ -20,4 +20,6 @@ public interface UserSectionDAO {
     UserSectionEntity update(UserSectionEntity userSection);
 
     boolean disableToken(String token);
+
+    List<UserSectionEntity> findInvalidUserSection();
 }

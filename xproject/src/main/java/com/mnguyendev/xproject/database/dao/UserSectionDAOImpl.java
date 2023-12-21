@@ -1,13 +1,15 @@
-package com.mnguyendev.xproject.dao;
+package com.mnguyendev.xproject.database.dao;
 
-import com.mnguyendev.xproject.entity.UserEntity;
-import com.mnguyendev.xproject.entity.UserSectionEntity;
+import com.mnguyendev.xproject.database.entity.RoleEntity;
+import com.mnguyendev.xproject.database.entity.UserEntity;
+import com.mnguyendev.xproject.database.entity.UserSectionEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -48,7 +50,7 @@ public class UserSectionDAOImpl implements UserSectionDAO{
     @Override
     public UserSectionEntity findByToken(String token) {
         try {
-            String query = String.format("from %s where token = :token", className);
+            String query = String.format("from %s where token = :token and isInvalid = false", className);
 
             // create the query
             TypedQuery<UserSectionEntity> typedQuery = entityManager.createQuery(
@@ -95,12 +97,27 @@ public class UserSectionDAOImpl implements UserSectionDAO{
     }
 
     @Override
+    @Transactional
     public boolean disableToken(String token) {
         UserSectionEntity theSection = this.findByToken(token);
         if (theSection != null){
             theSection.setInvalid(true);
+            theSection.setDeletedAt(new Date());
             return this.update(theSection) != null;
         }
         return false;
+    }
+
+    @Override
+    public List<UserSectionEntity> findInvalidUserSection() {
+        String query = String.format("from %s where isInvalid = true", className);
+
+        // create the query
+        TypedQuery<UserSectionEntity> typedQuery = entityManager.createQuery(
+                query, UserSectionEntity.class
+        );
+
+        //exec the query
+        return typedQuery.getResultList();
     }
 }

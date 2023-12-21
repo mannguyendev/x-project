@@ -44,7 +44,7 @@ public class CommonUtils {
                         TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=")
                 )
                 .compact();
-        log.info("Generate UUID: " + token);
+        log.info("Generate token: " + token);
         return token;
     }
 }

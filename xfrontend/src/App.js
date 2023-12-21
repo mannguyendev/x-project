@@ -1,13 +1,26 @@
 // import logo from "./logo.svg";
 import "./App.css";
-import Home from "./pages/Home.js";
+import Layout from "./components/layouts/Layout.js";
+import Home from "./pages/home/Home.js";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <Home />
-            </header>
+            <Layout>
+                <Routes>
+                    <Route path="/" element={<Home />}>
+                        {/* <Navigate to="/home" /> */}
+                        {/* <Home /> */}
+                    </Route>
+                    <Route path="/home" element={<Home />}>
+                        {/* <Home /> */}
+                    </Route>
+                    <Route path="/products" element={<Home />}>
+                        {/* <Home /> */}
+                    </Route>
+                </Routes>
+            </Layout>
         </div>
     );
 }
