@@ -87,7 +87,7 @@ public class UserController {
             JsonModel responseModel = new JsonModel();
             log.error(e.getMessage());
             responseModel.put("Error",e.getMessage());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return responseModel.build();
         }
     }
