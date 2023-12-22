@@ -14,12 +14,12 @@
 
 .formInput input {
     color: var(--grey700);
-    height: 2.8rem;
+    height: 2.4rem;
     margin: 0 1rem;
     border-radius: 0.5rem;
     text-indent: 0.5rem;
     border: 1px solid var(--grey600);
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .formSubmit {
@@ -46,4 +46,15 @@
     text-decoration: underline;
     height: 1rem;
     margin-bottom: 2.4rem;
+}
+
+.logo {
+    max-height: 6rem;
+}
+
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
 }

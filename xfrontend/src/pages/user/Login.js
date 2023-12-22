@@ -8,6 +8,7 @@ import { userActions } from "../../store/user-slice";
 // import Cookies from "universal-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import logo from "../../assets/logo.png";
 
 // const cookies = new Cookies();
 const Login = () => {
@@ -81,7 +82,10 @@ const Login = () => {
         <Fragment>
             <div className={classes.container}>
                 <div className={classes.formInput}>
-                    <h1>X Project - Trang đăng nhập</h1>
+                    <div className={classes.logoContainer}>
+                        <img className={classes.logo} src={logo} alt="x-project" />
+                        <h2>Project</h2>
+                    </div>
                     <input
                         onChange={onChangeUsernameHandler}
                         type="text"
