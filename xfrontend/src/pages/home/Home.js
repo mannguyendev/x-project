@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import Button from "../../components/ui/button/Button";
 
 import classes from "./Home.module.css";
@@ -110,6 +110,10 @@ const Home = () => {
                     <div className={classes.info}>
                         <label>Số điện thoại:</label>
                         <div>{user.phoneNo}</div>
+                    </div>
+                    <div className={classes.info}>
+                        <label>Ngày sinh:</label>
+                        <div>{user.dateOfBirth}</div>
                     </div>
                     <div className={classes.info}>
                         <label>Ngày tạo TK:</label>

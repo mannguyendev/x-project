@@ -1,9 +1,8 @@
-import { Fragment } from "react";
-// import classes from "./Input.module.css";
+import classes from "./Input.module.css";
 
 const Input = ({ id, type, error, lable, placeholder, onChange }) => {
     return (
-        <Fragment>
+        <div className={classes.container}>
             <input
                 onChange={onChange}
                 type={type ? type : "text"}
@@ -12,7 +11,7 @@ const Input = ({ id, type, error, lable, placeholder, onChange }) => {
                 placeholder={placeholder}
                 style={error ? { color: "var(--red800)" } : {}}
             />
-        </Fragment>
+        </div>
     );
 };
 

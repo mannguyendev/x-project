@@ -1,4 +1,8 @@
-input {
+.container {
+    display: flex;
+}
+
+.container input {
     color: var(--grey700);
     height: 2.4rem;
     margin: 0 1rem;
@@ -6,4 +10,5 @@ input {
     text-indent: 0.5rem;
     border: 1px solid var(--grey600);
     font-size: 1rem;
+    width: 100%;
 }
