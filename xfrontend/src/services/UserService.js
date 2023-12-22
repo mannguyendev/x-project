@@ -22,32 +22,13 @@ class UserService {
     }
 
     loginByToken(token) {
-        console.log(BACKEND_URL, token);
         return axios.post(`${BACKEND_URL}/users/verifyToken`, { token });
     }
 
-    // signup(email, password, name = "", phone = "0") {
-    //     return axios.post(`${BACKEND_URL}/users`, {
-    //         name,
-    //         email,
-    //         password,
-    //         phone,
-    //     });
-    // }
-    // getUserById(id) {
-    //     return axios.get(`${BACKEND_URL}/users/${id}`);
-    // }
-    // updateReview(data) {
-    //     return axios.put(`${url}/api/v1/movies/review`, data);
-    // }
-    // deleteReview(id, userId) {
-    //     return axios.delete(`${url}/api/v1/movies/review`, {
-    //         data: { review_id: id, user_id: userId },
-    //     });
-    // }
-    // getRatings() {
-    //     return axios.get(`${url}/api/v1/movies/ratings`);
-    // }
+    signup(user) {
+        console.log(user);
+        return axios.post(`${BACKEND_URL}/users/`, user);
+    }
 }
 
 const userService = new UserService();

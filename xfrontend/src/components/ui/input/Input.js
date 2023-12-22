@@ -1,37 +1,19 @@
-import React, { useEffect, useRef, useImperativeHandle } from "react";
+import { Fragment } from "react";
+// import classes from "./Input.module.css";
 
-import classes from "./Input.module.css";
-
-const Input = React.forwardRef((props, ref) => {
-    const inputRef = useRef();
-
-    // useEffect(() => {
-    //     inputRef.current.focus();
-    // }, []);
-    console.log(props);
-
-    const activate = () => {
-        inputRef.current.focus();
-    };
-
-    useImperativeHandle(ref, () => {
-        return {
-            focus: activate,
-        };
-    });
-
+const Input = ({ id, type, error, lable, placeholder, onChange }) => {
     return (
-        <div className={`${classes.control} ${props.isValid === false ? classes.invalid : ""}`}>
-            <label htmlFor={props.id}>{props.label}</label>
+        <Fragment>
             <input
-                ref={inputRef}
-                type={props.type}
-                id={props.id}
-                value={props.value}
-                onChange={props.onChange}
-                onBlur={props.onBlur}
+                onChange={onChange}
+                type={type ? type : "text"}
+                id={id}
+                lable={lable}
+                placeholder={placeholder}
+                style={error ? { color: "var(--red800)" } : {}}
             />
-        </div>
+        </Fragment>
     );
-});
+};
+
 export default Input;

@@ -12,23 +12,14 @@ function App() {
         <div className="App">
             <Layout>
                 <Routes>
-                    <Route path="/" element={<Home />}>
-                        {/* <Navigate to="/home" /> */}
-                        {/* <Home /> */}
-                    </Route>
-                    <Route path="/home" element={<Home />}>
-                        {/* <Home /> */}
-                    </Route>
-                    <Route path="/login" element={<Login />}>
-                        {/* <Home /> */}
-                    </Route>
-                    <Route path="/signup" element={<Signup />}>
-                        {/* <Home /> */}
-                    </Route>
+                    <Route path="/" element={<Home />}></Route>
+                    <Route path="/home" element={<Home />}></Route>
+                    <Route path="/login" element={<Login />}></Route>
+                    <Route path="/signup" element={<Signup />}></Route>
                 </Routes>
             </Layout>
             <Toaster
-                position="bottom right"
+                position="top right"
                 toastOptions={{
                     style: {
                         fontSize: "1.4rem",

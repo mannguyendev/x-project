@@ -1,52 +1,22 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import Button from "../../components/ui/button/Button";
 
 import classes from "./Login.module.css";
 import UserService from "../../services/UserService";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userActions } from "../../store/user-slice";
-// import Cookies from "universal-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import logo from "../../assets/logo.png";
+import XLogo from "../../components/ui/logo/XLogo";
+import Input from "../../components/ui/input/Input";
 
-// const cookies = new Cookies();
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // useEffect(() => {
-    //     const loginByToken = async () => {
-    //         try {
-    //             const token = cookies.get("Auth");
-
-    //             const response = UserService.loginByToken(token);
-
-    //             const responseData = await Promise.resolve(response);
-
-    //             const user = responseData.data.user;
-
-    //             if (user) {
-    //                 dispatch(userActions.login({ user: user, authToken: responseData.data.token }));
-    //                 navigate("/home");
-    //             }
-
-    //             console.log(responseData.data.user);
-    //         } catch (error) {
-    //             console.log(error.response.status);
-    //         }
-    //     };
-
-    //     if (cookies.get("Auth")) {
-    //         loginByToken();
-    //     }
-    // }, [dispatch, navigate]);
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
-
-    // const [user, setUser] = useState(null);
-    const user = useSelector((state) => state.user.user);
 
     const onChangeUsernameHandler = (e) => {
         e.preventDefault();
@@ -70,6 +40,7 @@ const Login = () => {
             console.log(responseData.data.user);
 
             dispatch(userActions.login({ user: responseData.data.user, authToken: responseData.data.token }));
+            toast.success("Đăng nhập thành công!");
             navigate("/");
         } catch (error) {
             console.log(error.message);
@@ -82,25 +53,22 @@ const Login = () => {
         <Fragment>
             <div className={classes.container}>
                 <div className={classes.formInput}>
-                    <div className={classes.logoContainer}>
-                        <img className={classes.logo} src={logo} alt="x-project" />
-                        <h2>Project</h2>
-                    </div>
-                    <input
+                    <XLogo />
+                    <Input
                         onChange={onChangeUsernameHandler}
                         type="text"
                         id="username"
                         lable="Username"
-                        placeholder="Username"
-                        style={error ? { color: "var(--red800)" } : {}}
+                        placeholder="Tên đăng nhập"
+                        error={error}
                     />
-                    <input
+                    <Input
                         onChange={onChangePasswordHandler}
                         type="password"
                         id="password"
                         lable="Password"
-                        placeholder="Password"
-                        style={error ? { color: "var(--red800)" } : {}}
+                        placeholder="Mật khẩu"
+                        error={error}
                     />
                 </div>
                 <div className={classes.formSubmit}>
