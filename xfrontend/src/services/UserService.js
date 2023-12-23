@@ -29,6 +29,14 @@ class UserService {
         console.log(user);
         return axios.post(`${BACKEND_URL}/users/`, user);
     }
+
+    updateUserById(token, user) {
+        return axios.patch(`${BACKEND_URL}/users/${user.id}`, user, {
+            headers: {
+                Authorization: "Bearer " + token, //the token is a variable which holds the token
+            },
+        });
+    }
 }
 
 const userService = new UserService();

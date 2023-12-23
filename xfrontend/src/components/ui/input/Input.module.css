@@ -4,11 +4,17 @@
 
 .container input {
     color: var(--grey700);
-    height: 2.4rem;
+    height: 2.2rem;
     margin: 0 1rem;
     border-radius: 0.5rem;
     text-indent: 0.5rem;
-    border: 1px solid var(--grey600);
+    /* border: 1px solid var(--grey600); */
+    border: none;
     font-size: 1rem;
     width: 100%;
+    box-shadow: 1px 2px 1px 2px var(--grey500);
+}
+
+.disable input {
+    background-color: var(--grey400);
 }
